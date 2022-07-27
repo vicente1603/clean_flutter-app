@@ -11,7 +11,7 @@
             "program": ".test/"
         },
         {
-            "name": "clean_flutter_app",
+            "name": "flutter_tdd_clean_architecture",
             "request": "launch",
             "type": "dart",
         }

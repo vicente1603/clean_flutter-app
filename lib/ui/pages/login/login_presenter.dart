@@ -4,4 +4,5 @@ abstract class LoginPresenter {
 
   Stream get emailErrorStream;
   Stream get passwordErrorController;
+  Stream get isFormValidController;
 }

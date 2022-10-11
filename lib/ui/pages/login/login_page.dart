@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tdd_clean_architecture/ui/components/components.dart';
+import 'package:flutter_tdd_clean_architecture/ui/pages/pages.dart';
 
 class LoginPage extends StatelessWidget {
+  final LoginPresenter presenter;
+
+  const LoginPage(this.presenter);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,15 +25,21 @@ class LoginPage extends StatelessWidget {
               child: Form(
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          labelText: 'Email',
-                          icon: Icon(
-                            Icons.email,
-                            color: Theme.of(context).primaryColorLight,
-                          )),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
+                    StreamBuilder<String>(
+                        stream: presenter.emailErrorStream,
+                        builder: (context, snapshot) {
+                          return TextFormField(
+                            decoration: InputDecoration(
+                                labelText: 'Email',
+                                icon: Icon(
+                                  Icons.email,
+                                  color: Theme.of(context).primaryColorLight,
+                                ),
+                                errorText: snapshot.data),
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: presenter.validateEmail,
+                          );
+                        }),
                     Padding(
                       padding: EdgeInsets.only(top: 8, bottom: 32),
                       child: TextFormField(
@@ -39,6 +50,7 @@ class LoginPage extends StatelessWidget {
                               color: Theme.of(context).primaryColorLight,
                             )),
                         obscureText: true,
+                        onChanged: presenter.validatePassword,
                       ),
                     ),
                     RaisedButton(

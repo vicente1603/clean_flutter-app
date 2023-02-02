@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tdd_clean_architecture/ui/components/components.dart';
+import 'package:flutter_tdd_clean_architecture/ui/pages/login/login_presenter.dart';
 
 class LoginPage extends StatelessWidget {
-  @override
+  final LoginPresenter presenter;
+
+  const LoginPage(this.presenter);
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -28,6 +32,7 @@ class LoginPage extends StatelessWidget {
                             color: Theme.of(context).primaryColorLight,
                           )),
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: presenter.validateEmail,
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 8, bottom: 32),
@@ -39,6 +44,7 @@ class LoginPage extends StatelessWidget {
                               color: Theme.of(context).primaryColorLight,
                             )),
                         obscureText: true,
+                        onChanged: presenter.validatePassword,
                       ),
                     ),
                     RaisedButton(

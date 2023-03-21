@@ -1,10 +1,11 @@
 import 'package:faker/faker.dart';
-import 'package:flutter_tdd_clean_architecture/data/http/http_error.dart';
 import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
-import 'package:flutter_tdd_clean_architecture/infra/http/http.dart';
+import 'package:ForDev/data/http/http.dart';
+
+import 'package:ForDev/infra/http/http.dart';
 
 class ClientSpy extends Mock implements Client {}
 
@@ -44,14 +45,14 @@ void main() {
       mockResponse(200);
     });
 
-    test('Should call post with corret values', () async {
+    test('Should call post with correct values', () async {
       await sut
-          .request(url: url, method: 'post', body: {"any_key": "any_value"});
+          .request(url: url, method: 'post', body: {'any_key': 'any_value'});
 
       verify(client.post(Uri.parse(url),
           headers: {
-            "content-type": "application;json",
-            "accept": "application/json"
+            'content-type': 'application/json',
+            'accept': 'application/json'
           },
           body: '{"any_key":"any_value"}'));
     });
@@ -59,19 +60,16 @@ void main() {
     test('Should call post without body', () async {
       await sut.request(url: url, method: 'post');
 
-      verify(client.post(
-        any,
-        headers: anyNamed('headers'),
-      ));
+      verify(client.post(any, headers: anyNamed('headers')));
     });
 
     test('Should return data if post returns 200', () async {
       final response = await sut.request(url: url, method: 'post');
 
-      expect(response, {"any_key": "any_value"});
+      expect(response, {'any_key': 'any_value'});
     });
 
-    test('Should return data if post returns 200', () async {
+    test('Should return null if post returns 200 with no data', () async {
       mockResponse(200, body: '');
 
       final response = await sut.request(url: url, method: 'post');
@@ -96,14 +94,6 @@ void main() {
     });
 
     test('Should return BadRequestError if post returns 400', () async {
-      mockResponse(400);
-
-      final future = sut.request(url: url, method: 'post');
-
-      expect(future, throwsA(HttpError.badRequest));
-    });
-
-    test('Should return BadRequestError if post returns 400', () async {
       mockResponse(400, body: '');
 
       final future = sut.request(url: url, method: 'post');
@@ -111,7 +101,15 @@ void main() {
       expect(future, throwsA(HttpError.badRequest));
     });
 
-    test('Should return UnathoraizedError if post returns 401', () async {
+    test('Should return BadRequestError if post returns 400', () async {
+      mockResponse(400);
+
+      final future = sut.request(url: url, method: 'post');
+
+      expect(future, throwsA(HttpError.badRequest));
+    });
+
+    test('Should return UnauthorizedError if post returns 401', () async {
       mockResponse(401);
 
       final future = sut.request(url: url, method: 'post');
@@ -135,7 +133,7 @@ void main() {
       expect(future, throwsA(HttpError.notFound));
     });
 
-    test('Should return BadRequestError if post returns 500', () async {
+    test('Should return ServerError if post returns 500', () async {
       mockResponse(500);
 
       final future = sut.request(url: url, method: 'post');

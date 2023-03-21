@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tdd_clean_architecture/ui/components/components.dart';
-import 'package:flutter_tdd_clean_architecture/ui/pages/login/login_presenter.dart';
 import 'package:provider/provider.dart';
+
+import '../../components/components.dart';
 import 'components/components.dart';
+import 'login_presenter.dart';
 
 class LoginPage extends StatefulWidget {
   final LoginPresenter presenter;
 
-  const LoginPage(this.presenter);
+  LoginPage(this.presenter);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
     widget.presenter.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
@@ -41,20 +43,16 @@ class _LoginPageState extends State<LoginPage> {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+              children: <Widget>[
                 LoginHeader(),
-                Text(
-                  "Login".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline1,
-                ),
+                Headline1(text: 'Login'),
                 Padding(
                   padding: EdgeInsets.all(32),
                   child: Provider(
                     create: (_) => widget.presenter,
                     child: Form(
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           EmailInput(),
                           Padding(
                             padding: EdgeInsets.only(top: 8, bottom: 32),
@@ -62,9 +60,10 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           LoginButton(),
                           FlatButton.icon(
-                              onPressed: () {},
-                              icon: Icon(Icons.person),
-                              label: Text("Criar conta"))
+                            onPressed: () {},
+                            icon: Icon(Icons.person),
+                            label: Text('Criar Conta')
+                          )
                         ],
                       ),
                     ),

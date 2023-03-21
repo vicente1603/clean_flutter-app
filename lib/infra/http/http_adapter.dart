@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
@@ -8,11 +9,12 @@ class HttpAdapter implements HttpClient {
   final Client client;
 
   HttpAdapter(this.client);
+
   Future<Map> request(
       {@required String url, @required String method, Map body}) async {
     final headers = {
-      "content-type": "application;json",
-      "accept": "application/json"
+      'content-type': 'application/json',
+      'accept': 'application/json'
     };
     final jsonBody = body != null ? jsonEncode(body) : null;
     var response = Response('', 500);
@@ -24,10 +26,10 @@ class HttpAdapter implements HttpClient {
     } catch (error) {
       throw HttpError.serverError;
     }
-    return _handlerResponse(response);
+    return _handleResponse(response);
   }
 
-  Map _handlerResponse(Response response) {
+  Map _handleResponse(Response response) {
     if (response.statusCode == 200) {
       return response.body.isEmpty ? null : jsonDecode(response.body);
     } else if (response.statusCode == 204) {

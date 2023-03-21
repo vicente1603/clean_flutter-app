@@ -12,6 +12,7 @@ void main() {
   LoginPresenter presenter;
   StreamController<String> emailErrorController;
   StreamController<String> passwordErrorController;
+  StreamController<String> mainErrorController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
 
@@ -19,6 +20,7 @@ void main() {
     presenter = LoginPresenterSpy();
     emailErrorController = StreamController<String>();
     passwordErrorController = StreamController<String>();
+    mainErrorController = StreamController<String>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
 
@@ -26,6 +28,8 @@ void main() {
         .thenAnswer((realInvocation) => emailErrorController.stream);
     when(presenter.passwordErrorStream)
         .thenAnswer((realInvocation) => passwordErrorController.stream);
+    when(presenter.mainErrorStream)
+        .thenAnswer((realInvocation) => mainErrorController.stream);
     when(presenter.isFormValidStream)
         .thenAnswer((realInvocation) => isFormValidController.stream);
     when(presenter.isLoadingStream)
@@ -37,6 +41,7 @@ void main() {
   tearDown(() {
     emailErrorController.close();
     passwordErrorController.close();
+    mainErrorController.close();
     isFormValidController.close();
     isLoadingController.close();
   });
@@ -54,6 +59,8 @@ void main() {
 
     final button = tester.widget<RaisedButton>(find.byType(RaisedButton));
     expect(button.onPressed, null);
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
   testWidgets("Should call validate with correct values",
@@ -174,5 +181,27 @@ void main() {
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+
+  testWidgets("Should hide loading", (WidgetTester tester) async {
+    await loadPage(tester);
+
+    isLoadingController.add(true);
+    await tester.pump();
+
+    isLoadingController.add(false);
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets("Should present error message if ath fails",
+      (WidgetTester tester) async {
+    await loadPage(tester);
+
+    mainErrorController.add("main error");
+    await tester.pump();
+
+    expect(find.text("main error"), findsOneWidget);
   });
 }

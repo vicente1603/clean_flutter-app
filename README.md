@@ -3,7 +3,7 @@
 
 # **4Dev Flutter - Enquetes para Programadores**
 
-[![alt text](./requirements/img/course-logo.png "Link para o treinamento")]()
+[![alt text](./requirements/assets/course-logo.png "Link para o treinamento")]()
 
 ---
 
@@ -11,13 +11,13 @@
 
 Essa aplicativo faz parte do treinamento do professor Rodrigo Manguinho (Mango) na Udemy.
 
-O objetivo do treinamento é mostrar como criar um aplicativo com Flutter usando uma arquitetura bem definida e desacoplada, seguindo TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID, DRY, YAGNI, KISS e aplicando Design Patterns para resolver alguns problemas comuns.
+O objetivo do treinamento é mostrar como criar um aplicativo com Flutter usando uma arquitetura bem definida e desacoplada, seguindo TDD (programação orientada a testes) como metodologia de trabalho, Clean Architecture para fazer a distribuição de responsabilidades em camadas, sempre seguindo os princípios do SOLID e aplicando Design Patterns para resolver alguns problemas comuns.
 
 ## [**Link para a documentação da API**](http://fordevs.herokuapp.com/api-docs)
 
 > ## Casos de Uso
 
-1. [Login](./requirements/login/remote_authentication_use_case.md)
+1. [Login](./requirements/use_cases/remote_authentication.md)
 
 > ## Princípios
 
@@ -44,15 +44,14 @@ O objetivo do treinamento é mostrar como criar um aplicativo com Flutter usando
 * Abstract Server
 * Composition Root
 * Builder
-* Proxy
-* Strategy
+* Singleton
+* Observer
 
 > ## Metodologias e Designs
 
 * TDD
 * BDD
 * Clean Architecture
-* Bloc
 * Reactive Programming
 * GitFlow
 * Modular Design
@@ -62,13 +61,19 @@ O objetivo do treinamento é mostrar como criar um aplicativo com Flutter usando
 > ## Bibliotecas e Ferramentas
 
 * Flutter
-* Mockito
 * Http
+* Provider
+* GetX
+* Equatable
+* Mockito
+* Faker
 * Git
 
 > ## Features de Testes
 
 * Testes Unitários
+* Testes de Widgets
+* Testes de Streams
 * Testes de Integração
 * Cobertura de Testes
 * Test Doubles
